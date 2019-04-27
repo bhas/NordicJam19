@@ -57,8 +57,8 @@ public class NetworkClient : MonoBehaviour
         if (message != null && message.IsCompleted)
         {
             Debug.Log("Message received: " + message.Result);
-            if (_handlers.ContainsKey(message))
-                _handlers[message]();
+            if (_handlers.ContainsKey(message.Result))
+                _handlers[message.Result]();
             message = Receive();
         }
     }
