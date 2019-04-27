@@ -18,10 +18,13 @@ public class GameStateController : MonoBehaviour
 
     private static GameStateController _instance;
 
+    private bool enemyHasMoved = false;
+
     public enum GameState
     {
         SelectingCard,
-        SelectingMove
+        SelectingMove,
+        Waiting
     }
 
     public GameState currentState;
@@ -31,11 +34,29 @@ public class GameStateController : MonoBehaviour
         return _instance;
     }
 
+    private void enemyMoved(int x, int y)
+    {
+        Debug.Log("Move: " + x + ", " + y);
+        enemyHasMoved = true;
+    }
+
     void Start()
     {
         statusText.text = "Click on a tile to move there!";
         currentState = GameState.SelectingCard;
         _instance = this;
+
+        NetworkClient.RegisterHandler("Move", enemyMoved);
+    }
+
+    void Update()
+    {
+        if (currentState == GameState.Waiting && enemyHasMoved)
+        {
+            enemyHasMoved = false;
+            currentState = GameState.SelectingCard;
+            deck.SetActive(true);
+        }
     }
 
     public void HighlightMoveOptions(int range,int tileX, int tileY)
@@ -119,12 +140,12 @@ public class GameStateController : MonoBehaviour
         }
     }
     
-    public void MoveSelected(Tile tile)
+    public async void MoveSelected(Tile tile)
     {
         ClearHighlights();
         piece1.Move(tile.gameObject);
-        currentState = GameState.SelectingCard;
-        deck.SetActive(true);
+        currentState = GameState.Waiting;
+        NetworkClient.Send("Move " + tile.x + " " + tile.y);
     }
 
     public void TileHit(Tile tile)

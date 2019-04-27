@@ -9,15 +9,15 @@ using UnityEngine;
 
 public class NetworkClient : MonoBehaviour
 {
-    private readonly Uri location = new Uri("wss://vast-lake-26314.herokuapp.com/");
-    private readonly ClientWebSocket cws = new ClientWebSocket();
-    private readonly int sendTimeout = 1000;
-    private readonly int connectionTimeout = 1000;
-    private readonly Dictionary<string, MessageHandler> _handlers = new Dictionary<string, MessageHandler>();
+    private static readonly Uri location = new Uri("wss://vast-lake-26314.herokuapp.com/");
+    private static readonly ClientWebSocket cws = new ClientWebSocket();
+    private static readonly int sendTimeout = 1000;
+    private static readonly int connectionTimeout = 1000;
+    private static readonly Dictionary<string, MessageHandler> _handlers = new Dictionary<string, MessageHandler>();
 
-    private Task<String> message;
+    private static Task<String> message;
 
-    public delegate void MessageHandler();
+    public delegate void MessageHandler(int x, int y);
 
     private void Log(string message)
     {
@@ -30,7 +30,7 @@ public class NetworkClient : MonoBehaviour
             await cws.ConnectAsync(location, cts.Token);
     }
 
-    public async Task Send(string message)
+    public static async Task Send(string message)
     {
         var buffer = Encoding.UTF8.GetBytes(message);
         var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
@@ -61,14 +61,21 @@ public class NetworkClient : MonoBehaviour
     {
         if (message != null && message.IsCompleted)
         {
-            Log("Message received: " + message.Result);
-            if (_handlers.ContainsKey(message.Result))
-                _handlers[message.Result]();
+            var messageText = message.Result;
+            var tokens = messageText.Split(' ');
+            if (tokens.Length != 3)
+                throw new Exception("Invalid command received!");
+            var command = tokens[0];
+            var x = int.Parse(tokens[1]);
+            var y = int.Parse(tokens[2]);
+            Log("Message received: " + messageText);
+            if (_handlers.ContainsKey(command))
+                _handlers[command](x, y);
             message = Receive();
         }
     }
 
-    public void RegisterHandler(string message, MessageHandler handler)
+    public static void RegisterHandler(string message, MessageHandler handler)
     {
         _handlers.Add(message, handler);
     }
