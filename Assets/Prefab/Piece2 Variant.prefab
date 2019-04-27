@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Piece2 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 900438557682957985, guid: f735d86443b45674583d8d1a8333ac0a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Piece
+      objectReference: {fileID: 0}
     - target: {fileID: 4337640269922853805, guid: f735d86443b45674583d8d1a8333ac0a,
         type: 3}
       propertyPath: m_LocalPosition.x
