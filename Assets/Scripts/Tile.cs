@@ -12,13 +12,15 @@ public class Tile : MonoBehaviour
 
     public GameStateController gameStateController;
 
+    public delegate void TileOperation(Piece piece);
+
+    public TileOperation Operation;
 
     public void SetHighlight(HighlightType type)
 	{
 		moveHightligt.SetActive(type == HighlightType.Move);
 		attackHightligt.SetActive(type == HighlightType.Attack);
     }
-
 }
 
 public enum HighlightType

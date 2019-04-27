@@ -89,6 +89,14 @@ public class GameStateController : MonoBehaviour
         }
     }
 
+    public Tile.TileOperation CreateOperation(int moveX, int moveY, int destroyX, int destroyY)
+    {
+        return (Piece piece) => {
+            MovePiece(piece1, moveX, moveY);
+            DestroyTile(destroyX, destroyY);
+        };
+    }
+
     public void HighlightMoveOptions(int range,int tileX, int tileY)
     {
         
@@ -106,7 +114,7 @@ public class GameStateController : MonoBehaviour
                 var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
             }
-
+            tile.Operation = CreateOperation(tileIndex.Item1, tileIndex.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
         }
         
 
@@ -118,12 +126,13 @@ public class GameStateController : MonoBehaviour
             var tile = tiles[tileIndex1.Item1, tileIndex1.Item2];
             tile.SetHighlight(HighlightType.Move);
 
-            var tileIndexAtt1 = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range + 1);
-            if (HasEmptyTile(tileIndexAtt1.Item1, tileIndexAtt1.Item2))
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
-                var tileAtt = tiles[tileIndexAtt1.Item1, tileIndexAtt1.Item2];
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
             }
+            tile.Operation = CreateOperation(tileIndex1.Item1, tileIndex1.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
         }
 
         //DownRight:
@@ -134,12 +143,13 @@ public class GameStateController : MonoBehaviour
             var tile = tiles[tileIndex2.Item1, tileIndex2.Item2];
             tile.SetHighlight(HighlightType.Move);
 
-            var tileIndexAtt2 = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range + 1);
-            if (HasEmptyTile(tileIndexAtt2.Item1, tileIndexAtt2.Item2))
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
-                var tileAtt = tiles[tileIndexAtt2.Item1, tileIndexAtt2.Item2];
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
             }
+            tile.Operation = CreateOperation(tileIndex2.Item1, tileIndex2.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
         }
 
         //DownLeft:
@@ -150,12 +160,13 @@ public class GameStateController : MonoBehaviour
             var tile = tiles[tileIndex3.Item1, tileIndex3.Item2];
             tile.SetHighlight(HighlightType.Move);
 
-            var tileIndexAtt3 = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range + 1);
-            if (HasEmptyTile(tileIndexAtt3.Item1, tileIndexAtt3.Item2))
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
-                var tileAtt = tiles[tileIndexAtt3.Item1, tileIndexAtt3.Item2];
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
             }
+            tile.Operation = CreateOperation(tileIndex3.Item1, tileIndex3.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
         }
 
         //Right:
@@ -166,12 +177,13 @@ public class GameStateController : MonoBehaviour
             var tile = tiles[tileIndex4.Item1, tileIndex4.Item2];
             tile.SetHighlight(HighlightType.Move);
 
-            var tileIndexAtt4 = GetTileIndex(tileX, tileY, HexagonDirection.Right, range + 1);
-            if (HasEmptyTile(tileIndexAtt4.Item1, tileIndexAtt4.Item2))
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Right, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
-                var tileAtt = tiles[tileIndexAtt4.Item1, tileIndexAtt4.Item2];
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
             }
+            tile.Operation = CreateOperation(tileIndex4.Item1, tileIndex4.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
         }
 
         //Left:
@@ -182,12 +194,13 @@ public class GameStateController : MonoBehaviour
             var tile = tiles[tileIndex5.Item1, tileIndex5.Item2];
             tile.SetHighlight(HighlightType.Move);
 
-            var tileIndexAtt5 = GetTileIndex(tileX, tileY, HexagonDirection.Left, range + 1);
-            if (HasEmptyTile(tileIndexAtt5.Item1, tileIndexAtt5.Item2))
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Left, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
-                var tileAtt = tiles[tileIndexAtt5.Item1, tileIndexAtt5.Item2];
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
             }
+            tile.Operation = CreateOperation(tileIndex5.Item1, tileIndex5.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
         }
     }
 
@@ -212,13 +225,25 @@ public class GameStateController : MonoBehaviour
                 tile.SetHighlight(HighlightType.None);
         }
     }
-    
+
+    public void DestroyTile(int x, int y)
+    {
+        NetworkClient.Send("TileDestroyed " + x + " " + y);
+        TileDestroyed(x, y);
+    }
+
+    public void MovePiece(Piece piece, int x, int y)
+    {
+        var tile = tiles[x, y];
+        piece.Move(tile.gameObject);
+        NetworkClient.Send("Move " + tile.x + " " + tile.y);
+    }
+
     public async void MoveSelected(Tile tile)
     {
-        ClearHighlights();
-        piece1.Move(tile.gameObject);
+        tile.Operation(piece1);
         currentState = GameState.Waiting;
-        NetworkClient.Send("Move " + tile.x + " " + tile.y);
+        ClearHighlights();
     }
 
     public void TileHit(Tile tile)
