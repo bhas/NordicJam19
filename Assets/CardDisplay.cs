@@ -17,4 +17,9 @@ public class CardDisplay : MonoBehaviour
         attackAmount.text = card.attackAmount;
         flavorText.text = card.flavorText;
     }
+
+	public ExecuteMove()
+	{
+
+	}
 }

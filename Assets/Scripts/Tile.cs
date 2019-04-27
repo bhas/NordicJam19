@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+	public Tuple<int, int> PositionIndex;
 	public GameObject moveHightligt;
 	public GameObject attackHightligt;
 
