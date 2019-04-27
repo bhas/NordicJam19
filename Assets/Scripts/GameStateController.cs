@@ -6,23 +6,34 @@ using UnityEngine;
 public class GameStateController : MonoBehaviour
 {
     public Tile[,] tiles;
-    public Tile testTile1;
-    public Tile testTile2;
-    public Tile testTile3;
-    public Tile testTile4;
+	public Grid1 Grid;
 
     void Start()
     {
-        testTile1.SetHighlight(HighlightType.Move);
-        testTile2.SetHighlight(HighlightType.Attack);
-    }
+	}
 
     public void CardSelected()
     {
 
     }
 
-	public bool IsTileFree(int posx, int posy, HexagonDirection dir, int range)
+	public void Test(Tile[,] tiles)
+	{
+		this.tiles = tiles;
+		print("Go");
+		var tileIndex = GetTileIndex(4,4, HexagonDirection.UpRight, 3);
+		print(tileIndex);
+		print(tiles.GetLength(0));
+		print(tiles.GetLength(1));
+		if (HasEmptyTile(tileIndex.Item1, tileIndex.Item2))
+		{
+			print("Found it");
+			var tile = tiles[tileIndex.Item1, tileIndex.Item2];
+			tile.SetHighlight(HighlightType.Attack);
+		}
+	}
+		
+	public Tuple<int, int> GetTileIndex(int posx, int posy, HexagonDirection dir, int range)
 	{
 		var offsetX = 0;
 		var offsetY = 0;
@@ -61,7 +72,7 @@ public class GameStateController : MonoBehaviour
 				break;
 		}
 
-		return HasEmptyTile(posx + offsetX, posy + offsetY);
+		return Tuple.Create(posx + offsetX, posy + offsetY);
 	}
 
 	public bool HasEmptyTile(int x, int y)

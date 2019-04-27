@@ -18,8 +18,4 @@ public class CardDisplay : MonoBehaviour
         flavorText.text = card.flavorText;
     }
 
-	public ExecuteMove()
-	{
-
-	}
 }

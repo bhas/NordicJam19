@@ -6,11 +6,13 @@ public class Grid1 : MonoBehaviour
 {
 
     public TextAsset mapFile;
+	public GameStateController Test;
 
     public Transform hexOrefab;
     public bool[,] mapLayOutInt;
+	public Tile[,] Tiles;
 
-    public float hexwidth = 1.1f;
+	public float hexwidth = 1.1f;
     float hexheight = 1f;
 
     public float gap = 0.0f;
@@ -31,8 +33,9 @@ public class Grid1 : MonoBehaviour
     {
         string[] mapLayOut = mapFile.text.Split('\n');
         mapLayOutInt = new bool[mapLayOut.Length,mapLayOut[0].Length];
+		Tiles = new Tile[mapLayOut.Length, mapLayOut[0].Length];
 
-        for (int ii = 0; ii < mapLayOut.Length; ii++)
+		for (int ii = 0; ii < mapLayOut.Length; ii++)
         {
             for(int iii = 0; iii < mapLayOut[ii].Length; iii++)
             {
@@ -89,7 +92,9 @@ public class Grid1 : MonoBehaviour
                     hex.position = CalcWorldPos(gridPos);
                     hex.parent = this.transform;
                     hex.name = "Hexagon" + x + "|" + y;
-                }
+					Tiles[y, x] = hex.GetComponent<Tile>();
+
+				}
                 else
                 {
                     print("get the fuck out");
@@ -97,6 +102,8 @@ public class Grid1 : MonoBehaviour
                 
             }
         }
-    }
+		Test.Test(this.Tiles);
+
+	}
 
     }
