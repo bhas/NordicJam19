@@ -43,7 +43,7 @@ public class Grid1 : MonoBehaviour
                 mapLayOutInt[ii, iii] = fuck == "1";
             }   
         }
-        gridWidth = mapLayOut[0].Length;
+        gridWidth = mapLayOut[0].Length - 1;
         gridHeight = mapLayOut.Length;
 
     }
