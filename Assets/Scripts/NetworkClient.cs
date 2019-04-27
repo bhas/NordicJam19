@@ -11,8 +11,6 @@ public class NetworkClient : MonoBehaviour
 {
     private static readonly Uri location = new Uri("wss://vast-lake-26314.herokuapp.com/");
     private static readonly ClientWebSocket cws = new ClientWebSocket();
-    private static readonly int sendTimeout = 1000;
-    private static readonly int connectionTimeout = 1000;
     private static readonly Dictionary<string, MessageHandler> _handlers = new Dictionary<string, MessageHandler>();
 
     private static Task<String> message;
@@ -25,8 +23,7 @@ public class NetworkClient : MonoBehaviour
     }
     private async Task Connect()
     {
-        using (var cts = new CancellationTokenSource(connectionTimeout))
-            await cws.ConnectAsync(location, cts.Token);
+        await cws.ConnectAsync(location, CancellationToken.None);
     }
 
     public static async Task Send(string message)
@@ -34,8 +31,7 @@ public class NetworkClient : MonoBehaviour
         var buffer = Encoding.UTF8.GetBytes(message);
         var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
         WebSocketReceiveResult recvResult;
-        using (var cts = new CancellationTokenSource(sendTimeout))
-            await cws.SendAsync(segment, WebSocketMessageType.Text, true, cts.Token);
+        await cws.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
     }
 
     private async Task<String> Receive()
