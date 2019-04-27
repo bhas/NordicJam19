@@ -43,7 +43,7 @@ public class Grid1 : MonoBehaviour
                 mapLayOutInt[ii, iii] = fuck == "1";
             }   
         }
-        gridWidth = mapLayOut[0].Length - 1;
+        gridWidth = mapLayOut[0].Length;
         gridHeight = mapLayOut.Length;
 
     }
@@ -85,14 +85,14 @@ public class Grid1 : MonoBehaviour
         {
             for (int x = 0; x < gridWidth; x++)
             {
-                if (mapLayOutInt[y, x])
+                if (mapLayOutInt[x, y])
                 {
                     Transform hex = Instantiate(hexOrefab) as Transform;
                     Vector2 gridPos = new Vector2(x, y);
                     hex.position = CalcWorldPos(gridPos);
                     hex.parent = this.transform;
                     hex.name = "Hexagon" + x + "|" + y;
-					Tiles[y, x] = hex.GetComponent<Tile>();
+					Tiles[x, y] = hex.GetComponent<Tile>();
 
 				}
                 else

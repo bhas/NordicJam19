@@ -21,7 +21,7 @@ public class GameStateController : MonoBehaviour
 	{
 		this.tiles = tiles;
 		print("Go");
-		var tileIndex = GetTileIndex(4,4, HexagonDirection.UpRight, 3);
+		var tileIndex = GetTileIndex(7,7, HexagonDirection.DownRight, 2);
 		print(tileIndex);
 		print(tiles.GetLength(0));
 		print(tiles.GetLength(1));
@@ -53,13 +53,13 @@ public class GameStateController : MonoBehaviour
 					offsetX--;
 				break;
 			case HexagonDirection.DownRight:
-				offsetY = range;
-				offsetX = -range / 2;
+				offsetY = -range;
+				offsetX = range / 2;
 				if (range % 2 == 1 && posy % 2 == 1)
-					offsetX--;
+					offsetX++;
 				break;
 			case HexagonDirection.DownLeft:
-				offsetY = range;
+				offsetY = -range;
 				offsetX = -range / 2;
 				if (range % 2 == 1 && posy % 2 == 0)
 					offsetX--;
@@ -68,7 +68,7 @@ public class GameStateController : MonoBehaviour
 				offsetX = range;
 				break;
 			case HexagonDirection.Left:
-				offsetY = -range;
+				offsetX = -range;
 				break;
 		}
 
@@ -77,9 +77,9 @@ public class GameStateController : MonoBehaviour
 
 	public bool HasEmptyTile(int x, int y)
 	{
-		if (x < 0 || x > tiles.GetLength(0))
+		if (x < 0 || x >= tiles.GetLength(0))
 			return false;
-		if (y < 0 || y > tiles.GetLength(1))
+		if (y < 0 || y >= tiles.GetLength(1))
 			return false;
 
 		return tiles[x, y] != null;
