@@ -40,7 +40,7 @@ public class GameStateController : MonoBehaviour
 
     public void HighlightMoveOptions(int range,int tileX, int tileY)
     {
-
+        
         //UpRight:
         var tileIndex = GetTileIndex(tileX, tileY, HexagonDirection.UpRight, range);
         
@@ -48,6 +48,14 @@ public class GameStateController : MonoBehaviour
         {
             var tile = tiles[tileIndex.Item1, tileIndex.Item2];
             tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.UpRight, range+1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
+
         }
         
 
@@ -58,6 +66,13 @@ public class GameStateController : MonoBehaviour
         {
             var tile = tiles[tileIndex1.Item1, tileIndex1.Item2];
             tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt1 = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range + 1);
+            if (HasEmptyTile(tileIndexAtt1.Item1, tileIndexAtt1.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt1.Item1, tileIndexAtt1.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
         }
 
         //DownRight:
@@ -67,6 +82,13 @@ public class GameStateController : MonoBehaviour
         {
             var tile = tiles[tileIndex2.Item1, tileIndex2.Item2];
             tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt2 = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range + 1);
+            if (HasEmptyTile(tileIndexAtt2.Item1, tileIndexAtt2.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt2.Item1, tileIndexAtt2.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
         }
 
         //DownLeft:
@@ -76,6 +98,13 @@ public class GameStateController : MonoBehaviour
         {
             var tile = tiles[tileIndex3.Item1, tileIndex3.Item2];
             tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt3 = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range + 1);
+            if (HasEmptyTile(tileIndexAtt3.Item1, tileIndexAtt3.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt3.Item1, tileIndexAtt3.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
         }
 
         //Right:
@@ -85,6 +114,13 @@ public class GameStateController : MonoBehaviour
         {
             var tile = tiles[tileIndex4.Item1, tileIndex4.Item2];
             tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt4 = GetTileIndex(tileX, tileY, HexagonDirection.Right, range + 1);
+            if (HasEmptyTile(tileIndexAtt4.Item1, tileIndexAtt4.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt4.Item1, tileIndexAtt4.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
         }
 
         //Left:
@@ -94,6 +130,13 @@ public class GameStateController : MonoBehaviour
         {
             var tile = tiles[tileIndex5.Item1, tileIndex5.Item2];
             tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt5 = GetTileIndex(tileX, tileY, HexagonDirection.Left, range + 1);
+            if (HasEmptyTile(tileIndexAtt5.Item1, tileIndexAtt5.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt5.Item1, tileIndexAtt5.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
         }
     }
 
