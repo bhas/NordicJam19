@@ -20,7 +20,7 @@ public class GameStateController : MonoBehaviour
 
     private static GameStateController _instance;
 
-    private bool enemyHasMoved = false;
+    private Action enemyMove = null;
 
     public enum GameState
     {
@@ -40,16 +40,16 @@ public class GameStateController : MonoBehaviour
     {
         Debug.Log("Move: " + x + ", " + y);
         Debug.Log("Enemy location: " + piece2.x + ", " + piece2.y);
-        enemyHasMoved = true;
-        piece2.Move(tiles[x, y].gameObject);
+        enemyMove = () => piece2.Move(tiles[x, y].gameObject);
     }
 
-    private void SetPlayer(int x, int y)
+    private void SetPlayer(string[] parameters)
     {
-        statusText.text = "You are player " + x + "!";
+        var player = int.Parse(parameters[1]);
+        statusText.text = "You are player " + player + "!";
         statusText.gameObject.SetActive(true);
         Destroy(statusText.gameObject, 2);
-        if (x == 2)
+        if (player == 2)
             SwapPlayers();
     }
 
@@ -70,22 +70,33 @@ public class GameStateController : MonoBehaviour
         piece2 = tmp;
     }
 
+    void MoveAndDestroyHandler(string[] parameters)
+    {
+        if (parameters.Length != 5)
+            throw new Exception("Invalid command!");
+        var moveX = int.Parse(parameters[1]);
+        var moveY = int.Parse(parameters[2]);
+        var destroyX = int.Parse(parameters[3]);
+        var destroyY = int.Parse(parameters[4]);
+        EnemyMoved(moveX, moveY);
+        TileDestroyed(destroyX, destroyY);
+    }
+
     void Start()
     {
         statusText.text = "Click on a tile to move there!";
         currentState = GameState.SelectingCard; 
         _instance = this;
 
-        NetworkClient.RegisterHandler("Move", EnemyMoved);
-        NetworkClient.RegisterHandler("TileDestroyed", TileDestroyed);
+        NetworkClient.RegisterHandler("MoveAndDestroy", MoveAndDestroyHandler);
         NetworkClient.RegisterHandler("SetPlayer", SetPlayer);
     }
 
     void Update()
     {
-        if (currentState == GameState.Waiting && enemyHasMoved)
+        if (currentState == GameState.Waiting && enemyMove != null)
         {
-            enemyHasMoved = false;
+            enemyMove();
             currentState = GameState.SelectingCard;
             deck.SetActive(true);
         }
@@ -93,11 +104,10 @@ public class GameStateController : MonoBehaviour
 
     public Tile.TileOperation CreateOperation(int moveX, int moveY, int destroyX, int destroyY)
     {
-        return async (Piece piece) => {
-            var moveTask = MovePiece(piece1, moveX, moveY);
-            var destroyTask = DestroyTile(destroyX, destroyY);
-            await moveTask;
-            await destroyTask;
+        return (Piece piece) => {
+            MovePiece(piece1, moveX, moveY);
+            DestroyTile(destroyX, destroyY);
+            return NetworkClient.Send("MoveAndDestroy " + moveX + " " + moveY + " " + destroyX + " " + destroyY);
         };
     }
 
@@ -230,17 +240,15 @@ public class GameStateController : MonoBehaviour
         }
     }
 
-    private Task DestroyTile(int x, int y)
+    private void DestroyTile(int x, int y)
     {
         TileDestroyed(x, y);
-        return NetworkClient.Send("TileDestroyed " + x + " " + y);
     }
 
-    private Task MovePiece(Piece piece, int x, int y)
+    private void MovePiece(Piece piece, int x, int y)
     {
         var tile = tiles[x, y];
         piece.Move(tile.gameObject);
-        return NetworkClient.Send("Move " + tile.x + " " + tile.y);
     }
 
     public Task MoveSelected(Tile tile)

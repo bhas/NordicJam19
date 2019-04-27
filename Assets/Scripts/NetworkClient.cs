@@ -18,7 +18,7 @@ public class NetworkClient : MonoBehaviour
 
     private static Task<String> message;
 
-    public delegate void MessageHandler(int x, int y);
+    public delegate void MessageHandler(string[] parameters);
 
     private void Log(string message)
     {
@@ -65,14 +65,10 @@ public class NetworkClient : MonoBehaviour
             var messageText = message.Result;
             message = Receive();
             var tokens = messageText.Split(' ');
-            if (tokens.Length != 3)
-                throw new Exception("Invalid command received!");
             var command = tokens[0];
-            var x = int.Parse(tokens[1]);
-            var y = int.Parse(tokens[2]);
             Log("Message received: " + messageText);
             if (_handlers.ContainsKey(command))
-                _handlers[command](x, y);
+                _handlers[command](tokens);
         }
     }
 
