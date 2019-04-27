@@ -12,4 +12,12 @@ public class Piece : MonoBehaviour
     {
         tile.SetHighlight(HighlightType.Move);
     }
+
+    public void Move(GameObject destinationTile)
+    {
+        tile = destinationTile.GetComponent<Tile>();
+        x = tile.x;
+        y = tile.y;
+        transform.position = destinationTile.transform.position;
+    }
 }

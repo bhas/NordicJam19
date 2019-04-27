@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Grid1 : MonoBehaviour
 {
-
     public TextAsset mapFile;
-	public GameStateController Test;
 
     public Transform hexOrefab;
     public Transform piece1fab;
@@ -19,6 +17,9 @@ public class Grid1 : MonoBehaviour
     float hexheight = 1f;
 
     public float gap = 0.0f;
+
+    public GameStateController gameStateController;
+
     int gridWidth;
     int gridHeight;
     Vector3 startPos;
@@ -32,7 +33,7 @@ public class Grid1 : MonoBehaviour
         CreatePieces();
     }
 
-    void CreatePiece(string name, Transform prefab, int x, int y)
+    private Piece CreatePiece(string name, Transform prefab, int x, int y)
     {
         Transform piece = (Transform)Instantiate(piece1fab);
         Vector2 gridPos = new Vector2(x, y);
@@ -43,12 +44,13 @@ public class Grid1 : MonoBehaviour
         pieceScript.x = x;
         pieceScript.y = y;
         pieceScript.tile = Tiles[x, y];
+        return pieceScript;
     }
 
     void CreatePieces()
     {
-        CreatePiece("Piece1", piece1fab, 7, 7);
-        CreatePiece("Piece2", piece2fab, 0, 0);
+        gameStateController.piece1 = CreatePiece("Piece1", piece1fab, 7, 7);
+        gameStateController.piece2 = CreatePiece("Piece2", piece2fab, 0, 0);
     }
 
     void ReadMapFile()
@@ -114,8 +116,11 @@ public class Grid1 : MonoBehaviour
                     hex.position = CalcWorldPos(gridPos);
                     hex.parent = this.transform;
                     hex.name = "Hexagon" + x + "|" + y;
-					Tiles[x, y] = hex.GetComponent<Tile>();
-
+                    var tileScript = hex.GetComponent<Tile>();
+                    tileScript.x = x;
+                    tileScript.y = y;
+                    tileScript.gameStateController = gameStateController;
+                    Tiles[x, y] = tileScript;
 				}
                 else
                 {
@@ -124,8 +129,6 @@ public class Grid1 : MonoBehaviour
                 
             }
         }
-		Test.Test(this.Tiles);
-
 	}
 
     }

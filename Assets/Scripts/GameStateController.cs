@@ -2,19 +2,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameStateController : MonoBehaviour
 {
     public Tile[,] tiles;
 	public Grid1 Grid;
 
+    public Text statusText;
+
+    public Piece piece1;
+    public Piece piece2;
+
+    enum GameState
+    {
+        SelectingCard,
+        SelectingMove
+    }
+
+    public GameState currentState;
+
     void Start()
     {
-	}
+        statusText.text = "Click on a tile to move there!";
+    }
 
     public void CardSelected()
     {
 
+    }
+
+    public void TileHit(Tile tile)
+    {
+        if (currentState == GameState.SelectingCard)
+        {
+            piece1.Move(tile.gameObject);
+            statusText.text = "";
+        }
+        else if (currentState == GameState.SelectingMove)
+        {
+
+        }
     }
 
 	public void Test(Tile[,] tiles)
@@ -83,7 +111,7 @@ public class GameStateController : MonoBehaviour
 			return false;
 
 		return tiles[x, y] != null;
-	}
+	}   
 }
 
 public enum HexagonDirection

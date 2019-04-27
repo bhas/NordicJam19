@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UserInput : MonoBehaviour
 {
+    public GameStateController gameStateController;
+
     private void Log(string message)
     {
         // Debug.Log(message);
@@ -12,7 +14,7 @@ public class UserInput : MonoBehaviour
     private void HandleTileHit(Tile tile)
     {
         Log("We hit a tile!");
-        tile.SetHighlight(HighlightType.Move);
+        gameStateController.TileHit(tile);
     }
 
     private void HandlePieceHit(Piece piece)
