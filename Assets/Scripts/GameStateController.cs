@@ -12,6 +12,69 @@ public class GameStateController : MonoBehaviour
     {
 	}
 
+<<<<<<< Updated upstream
+=======
+    public void HighlightMoveOptions(int range,int tileX, int tileY)
+    {
+
+        //UpRight:
+        var tileIndex = GetTileIndex(tileX, tileY, HexagonDirection.UpRight, range);
+        
+        if (HasEmptyTile(tileIndex.Item1, tileIndex.Item2))
+        {
+            var tile = tiles[tileIndex.Item1, tileIndex.Item2];
+            tile.SetHighlight(HighlightType.Move);
+        }
+        
+
+        //UpLeft:
+        var tileIndex1 = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range);
+
+        if (HasEmptyTile(tileIndex1.Item1, tileIndex1.Item2))
+        {
+            var tile = tiles[tileIndex1.Item1, tileIndex1.Item2];
+            tile.SetHighlight(HighlightType.Move);
+        }
+
+        //DownRight:
+        var tileIndex2 = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range);
+
+        if (HasEmptyTile(tileIndex2.Item1, tileIndex2.Item2))
+        {
+            var tile = tiles[tileIndex2.Item1, tileIndex2.Item2];
+            tile.SetHighlight(HighlightType.Move);
+        }
+
+        //DownLeft:
+        var tileIndex3 = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range);
+
+        if (HasEmptyTile(tileIndex3.Item1, tileIndex3.Item2))
+        {
+            var tile = tiles[tileIndex3.Item1, tileIndex3.Item2];
+            tile.SetHighlight(HighlightType.Move);
+        }
+
+        //Right:
+        var tileIndex4 = GetTileIndex(tileX, tileY, HexagonDirection.Right, range);
+
+        if (HasEmptyTile(tileIndex4.Item1, tileIndex4.Item2))
+        {
+            var tile = tiles[tileIndex4.Item1, tileIndex4.Item2];
+            tile.SetHighlight(HighlightType.Move);
+        }
+
+        //Left:
+        var tileIndex5 = GetTileIndex(tileX, tileY, HexagonDirection.Left, range);
+
+        if (HasEmptyTile(tileIndex5.Item1, tileIndex5.Item2))
+        {
+            var tile = tiles[tileIndex5.Item1, tileIndex5.Item2];
+            tile.SetHighlight(HighlightType.Move);
+        }
+
+    }
+
+>>>>>>> Stashed changes
     public void CardSelected()
     {
 

@@ -12,8 +12,17 @@ public class NetworkClient : MonoBehaviour
     private readonly Uri location = new Uri("wss://vast-lake-26314.herokuapp.com/");
     private readonly ClientWebSocket cws = new ClientWebSocket();
     private readonly int sendTimeout = 1000;
-    private readonly int receiveTimeout = 60000;
     private readonly int connectionTimeout = 1000;
+    private readonly Dictionary<string, MessageHandler> _handlers = new Dictionary<string, MessageHandler>();
+
+    private Task<String> message;
+
+    public delegate void MessageHandler();
+
+    private void Log(string message)
+    {
+        // Debug.Log(message);
+    }
 
     private async Task Connect()
     {
@@ -30,17 +39,16 @@ public class NetworkClient : MonoBehaviour
             await cws.SendAsync(segment, WebSocketMessageType.Text, true, cts.Token);
     }
 
-    public async Task<String> Receive()
+    private async Task<String> Receive()
     {
         var buffer = new byte[2048];
         var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
-        Debug.Log("Listening for message...");
+        Log("Listening for message...");
         WebSocketReceiveResult recvResult;
-        using (var cts = new CancellationTokenSource(receiveTimeout))
-            recvResult = await cws.ReceiveAsync(segment, cts.Token);
+        recvResult = await cws.ReceiveAsync(segment, CancellationToken.None);
 
         var message = Encoding.UTF8.GetString(buffer, 0, recvResult.Count);
-        Debug.Log("Received message: " + message);
+        Log("Received message: " + message);
         return message;
     }
 
@@ -49,13 +57,35 @@ public class NetworkClient : MonoBehaviour
         await Send(name);
     }
 
+    private void PollMessage()
+    {
+        if (message != null && message.IsCompleted)
+        {
+            Log("Message received: " + message.Result);
+            if (_handlers.ContainsKey(message.Result))
+                _handlers[message.Result]();
+            message = Receive();
+        }
+    }
+
+    public void RegisterHandler(string message, MessageHandler handler)
+    {
+        _handlers.Add(message, handler);
+    }
+
     async void Start()
     {
-        Debug.Log("Connecting");
+        Log("Connecting");
         await Connect();
-        Debug.Log("Connected.");
+        Log("Connected.");
         await SetPlayerName("Player 1");
-        Debug.Log("Player name set.");
+        Log("Player name set.");
+        message = Receive();
+    }
+
+    void FixedUpdate()
+    {
+        PollMessage();
     }
 
     async void OnDestroy()

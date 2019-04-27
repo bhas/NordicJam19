@@ -9,6 +9,12 @@ public class Grid1 : MonoBehaviour
 	public GameStateController Test;
 
     public Transform hexOrefab;
+<<<<<<< Updated upstream
+    public Transform piece1fab;
+    public Transform piece2fab;
+
+=======
+>>>>>>> Stashed changes
     public bool[,] mapLayOutInt;
 	public Tile[,] Tiles;
 
@@ -26,7 +32,30 @@ public class Grid1 : MonoBehaviour
         AddGap();
         CalcStartPos();
         CreateGrid();
+<<<<<<< Updated upstream
+        CreatePieces();
+    }
+
+    void CreatePiece(string name, Transform prefab, int x, int y)
+    {
+        Transform piece = (Transform)Instantiate(piece1fab);
+        Vector2 gridPos = new Vector2(x, y);
+        piece.position = CalcWorldPos(gridPos);
+        piece.parent = this.transform;
+        piece.name = name;
+        var pieceScript = piece.GetComponent<Piece>();
+        pieceScript.x = x;
+        pieceScript.y = y;
+        pieceScript.tile = Tiles[x, y];
+    }
+
+    void CreatePieces()
+    {
+        CreatePiece("Piece1", piece1fab, 7, 7);
+        CreatePiece("Piece2", piece2fab, 0, 0);
+=======
         
+>>>>>>> Stashed changes
     }
 
     void ReadMapFile()
@@ -43,7 +72,11 @@ public class Grid1 : MonoBehaviour
                 mapLayOutInt[ii, iii] = fuck == "1";
             }   
         }
+<<<<<<< Updated upstream
+        gridWidth = mapLayOut[0].Length - 1;
+=======
         gridWidth = mapLayOut[0].Length;
+>>>>>>> Stashed changes
         gridHeight = mapLayOut.Length;
 
     }
@@ -83,11 +116,19 @@ public class Grid1 : MonoBehaviour
     {
         for (int y = 0; y < gridHeight; y++)
         {
+<<<<<<< Updated upstream
             for (int x = 0; x < gridWidth; x++)
             {
                 if (mapLayOutInt[x, y])
                 {
+                    Transform hex = (Transform)Instantiate(hexOrefab);
+=======
+            for (int x = 0; x < gridWidth-1; x++)
+            {
+                if (mapLayOutInt[x, y])
+                {
                     Transform hex = Instantiate(hexOrefab) as Transform;
+>>>>>>> Stashed changes
                     Vector2 gridPos = new Vector2(x, y);
                     hex.position = CalcWorldPos(gridPos);
                     hex.parent = this.transform;
@@ -103,6 +144,10 @@ public class Grid1 : MonoBehaviour
             }
         }
 		Test.Test(this.Tiles);
+<<<<<<< Updated upstream
+=======
+        Test.tiles = this.Tiles;
+>>>>>>> Stashed changes
 
 	}
 
