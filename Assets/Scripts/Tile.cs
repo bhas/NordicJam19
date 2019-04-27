@@ -17,6 +17,7 @@ public class Tile : MonoBehaviour
 		moveHightligt.SetActive(type == HighlightType.Move);
 		attackHightligt.SetActive(type == HighlightType.Attack);
     }
+
 }
 
 public enum HighlightType

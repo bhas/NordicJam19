@@ -131,5 +131,6 @@ public class Grid1 : MonoBehaviour
                 
             }
         }
+        gameStateController.tiles = Tiles;
     }
 }

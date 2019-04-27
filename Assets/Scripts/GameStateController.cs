@@ -106,10 +106,17 @@ public class GameStateController : MonoBehaviour
 
     public void MoveSelected(Tile tile)
     {
-        piece1.Move(tile.gameObject);
+        //piece1.Move(tile.gameObject);
         statusText.text = "";
         currentState = GameState.SelectingCard;
         deck.SetActive(true);
+    }
+
+    public void DeleteTile(int x, int y)
+    {
+        var tile = tiles[x, y];
+        GameObject.Destroy(tile.gameObject);
+        tiles[x, y] = null;
     }
 
     public void TileHit(Tile tile)
