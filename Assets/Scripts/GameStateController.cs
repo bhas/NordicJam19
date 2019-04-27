@@ -34,10 +34,11 @@ public class GameStateController : MonoBehaviour
         return _instance;
     }
 
-    private void enemyMoved(int x, int y)
+    private void EnemyMoved(int x, int y)
     {
         Debug.Log("Move: " + x + ", " + y);
         enemyHasMoved = true;
+        piece2.Move(tiles[x, y].gameObject);
     }
 
     void Start()
@@ -46,7 +47,7 @@ public class GameStateController : MonoBehaviour
         currentState = GameState.SelectingCard;
         _instance = this;
 
-        NetworkClient.RegisterHandler("Move", enemyMoved);
+        NetworkClient.RegisterHandler("Move", EnemyMoved);
     }
 
     void Update()
