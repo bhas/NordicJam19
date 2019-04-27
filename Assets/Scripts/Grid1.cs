@@ -128,7 +128,6 @@ public class Grid1 : MonoBehaviour
                 {
                     print("get the fuck out");
                 }
-                
             }
         }
         gameStateController.tiles = Tiles;

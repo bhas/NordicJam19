@@ -51,6 +51,16 @@ public class GameStateController : MonoBehaviour
             SwapPlayers();
     }
 
+    private void TileDestroyed(int x, int y)
+    {
+        Debug.Log("Tile destroyed: " + x + ", " + y);
+        if (tiles[x, y] != null)
+        {
+            Destroy(tiles[x, y].gameObject);
+            tiles[x, y] = null;
+        }
+    }
+
     private void SwapPlayers()
     {
         var tmp = piece1;
@@ -65,6 +75,7 @@ public class GameStateController : MonoBehaviour
         _instance = this;
 
         NetworkClient.RegisterHandler("Move", EnemyMoved);
+        NetworkClient.RegisterHandler("TileDestroyed", TileDestroyed);
         NetworkClient.RegisterHandler("SetPlayer", SetPlayer);
     }
 

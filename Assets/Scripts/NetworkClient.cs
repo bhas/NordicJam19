@@ -61,6 +61,7 @@ public class NetworkClient : MonoBehaviour
         if (message != null && message.IsCompleted)
         {
             var messageText = message.Result;
+            message = Receive();
             var tokens = messageText.Split(' ');
             if (tokens.Length != 3)
                 throw new Exception("Invalid command received!");
@@ -70,7 +71,6 @@ public class NetworkClient : MonoBehaviour
             Log("Message received: " + messageText);
             if (_handlers.ContainsKey(command))
                 _handlers[command](x, y);
-            message = Receive();
         }
     }
 
