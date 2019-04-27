@@ -27,8 +27,6 @@ public class GameStateController : MonoBehaviour
         statusText.text = "Click on a tile to move there!";
     }
 
-<<<<<<< Updated upstream
-=======
     public void HighlightMoveOptions(int range,int tileX, int tileY)
     {
 
@@ -89,7 +87,6 @@ public class GameStateController : MonoBehaviour
 
     }
 
->>>>>>> Stashed changes
     public void CardSelected()
     {
 
