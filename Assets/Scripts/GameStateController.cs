@@ -93,7 +93,7 @@ public class GameStateController : MonoBehaviour
         currentState = GameState.SelectingMove;
     }
 
-    public void MoveSelected()
+    public void MoveSelected(Tile tile)
     {
         piece1.Move(tile.gameObject);
         statusText.text = "";
@@ -102,10 +102,8 @@ public class GameStateController : MonoBehaviour
 
     public void TileHit(Tile tile)
     {
-        if (currentState == GameState.SelectingCard)
-            MoveSelected();
-        else if (currentState == GameState.SelectingMove)
-            MoveSelected();
+        if (currentState == GameState.SelectingMove)
+            MoveSelected(tile);
     }
 
 	public void Test(Tile[,] tiles)
