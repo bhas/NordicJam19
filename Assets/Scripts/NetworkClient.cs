@@ -19,6 +19,11 @@ public class NetworkClient : MonoBehaviour
 
     public delegate void MessageHandler();
 
+    private void Log(string message)
+    {
+        // Debug.Log(message);
+    }
+
     private async Task Connect()
     {
         using (var cts = new CancellationTokenSource(connectionTimeout))
@@ -38,12 +43,12 @@ public class NetworkClient : MonoBehaviour
     {
         var buffer = new byte[2048];
         var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
-        Debug.Log("Listening for message...");
+        Log("Listening for message...");
         WebSocketReceiveResult recvResult;
         recvResult = await cws.ReceiveAsync(segment, CancellationToken.None);
 
         var message = Encoding.UTF8.GetString(buffer, 0, recvResult.Count);
-        Debug.Log("Received message: " + message);
+        Log("Received message: " + message);
         return message;
     }
 
@@ -56,7 +61,7 @@ public class NetworkClient : MonoBehaviour
     {
         if (message != null && message.IsCompleted)
         {
-            Debug.Log("Message received: " + message.Result);
+            Log("Message received: " + message.Result);
             if (_handlers.ContainsKey(message.Result))
                 _handlers[message.Result]();
             message = Receive();
@@ -70,11 +75,11 @@ public class NetworkClient : MonoBehaviour
 
     async void Start()
     {
-        Debug.Log("Connecting");
+        Log("Connecting");
         await Connect();
-        Debug.Log("Connected.");
+        Log("Connected.");
         await SetPlayerName("Player 1");
-        Debug.Log("Player name set.");
+        Log("Player name set.");
         message = Receive();
     }
 
