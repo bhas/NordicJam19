@@ -37,17 +37,35 @@ public class GameStateController : MonoBehaviour
     private void EnemyMoved(int x, int y)
     {
         Debug.Log("Move: " + x + ", " + y);
+        Debug.Log("Enemy location: " + piece2.x + ", " + piece2.y);
         enemyHasMoved = true;
         piece2.Move(tiles[x, y].gameObject);
+    }
+
+    private void SetPlayer(int x, int y)
+    {
+        statusText.text = "You are player " + x + "!";
+        statusText.gameObject.SetActive(true);
+        Destroy(statusText.gameObject, 2);
+        if (x == 2)
+            SwapPlayers();
+    }
+
+    private void SwapPlayers()
+    {
+        var tmp = piece1;
+        piece1 = piece2;
+        piece2 = tmp;
     }
 
     void Start()
     {
         statusText.text = "Click on a tile to move there!";
-        currentState = GameState.SelectingCard;
+        currentState = GameState.SelectingCard; 
         _instance = this;
 
         NetworkClient.RegisterHandler("Move", EnemyMoved);
+        NetworkClient.RegisterHandler("SetPlayer", SetPlayer);
     }
 
     void Update()

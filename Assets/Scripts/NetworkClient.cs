@@ -23,7 +23,6 @@ public class NetworkClient : MonoBehaviour
     {
         // Debug.Log(message);
     }
-
     private async Task Connect()
     {
         using (var cts = new CancellationTokenSource(connectionTimeout))
@@ -85,7 +84,7 @@ public class NetworkClient : MonoBehaviour
         Log("Connecting");
         await Connect();
         Log("Connected.");
-        await SetPlayerName("Player 1");
+        await SetPlayerName("Real game engine.");
         Log("Player name set.");
         message = Receive();
     }
