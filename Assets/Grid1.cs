@@ -4,23 +4,45 @@ using UnityEngine;
 
 public class Grid1 : MonoBehaviour
 {
-    public Transform hexOrefab;
 
-    public int gridWidth = 11;
-    public int gridHeight = 11;
+    public TextAsset mapFile;
+
+    public Transform hexOrefab;
+    public bool[,] mapLayOutInt;
 
     public float hexwidth = 1.1f;
     float hexheight = 1f;
 
     public float gap = 0.0f;
-
+    int gridWidth;
+    int gridHeight;
     Vector3 startPos;
 
     void Start()
     {
+        ReadMapFile();
         AddGap();
         CalcStartPos();
         CreateGrid();
+        
+    }
+
+    void ReadMapFile()
+    {
+        string[] mapLayOut = mapFile.text.Split('\n');
+        mapLayOutInt = new bool[mapLayOut.Length,mapLayOut[0].Length];
+
+        for (int ii = 0; ii < mapLayOut.Length; ii++)
+        {
+            for(int iii = 0; iii < mapLayOut[ii].Length; iii++)
+            {
+                string fuck = mapLayOut[ii].Substring(iii, 1);
+                mapLayOutInt[ii, iii] = fuck == "1";
+            }   
+        }
+        gridWidth = mapLayOut[0].Length - 1;
+        gridHeight = mapLayOut.Length;
+
     }
 
     void AddGap()
@@ -60,12 +82,19 @@ public class Grid1 : MonoBehaviour
         {
             for (int x = 0; x < gridWidth; x++)
             {
-                Transform hex = Instantiate(hexOrefab) as Transform;
-                Vector2 gridPos = new Vector2(x, y);
-                hex.position = CalcWorldPos(gridPos);
-                hex.parent = this.transform;
-                hex.name = "Hexagon" + x + "|" + y;
-
+                if (mapLayOutInt[x, y])
+                {
+                    Transform hex = Instantiate(hexOrefab) as Transform;
+                    Vector2 gridPos = new Vector2(x, y);
+                    hex.position = CalcWorldPos(gridPos);
+                    hex.parent = this.transform;
+                    hex.name = "Hexagon" + x + "|" + y;
+                }
+                else
+                {
+                    print("get the fuck out");
+                }
+                
             }
         }
     }
