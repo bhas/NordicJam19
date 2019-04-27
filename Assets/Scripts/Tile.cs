@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
 
     public GameStateController gameStateController;
 
+
     public void SetHighlight(HighlightType type)
 	{
 		moveHightligt.SetActive(type == HighlightType.Move);
