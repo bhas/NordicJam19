@@ -12,7 +12,7 @@ public class Tile : MonoBehaviour
 
     public GameStateController gameStateController;
 
-    public delegate void TileOperation(Piece piece);
+    public async delegate void TileOperation(Piece piece);
 
     public TileOperation Operation;
 

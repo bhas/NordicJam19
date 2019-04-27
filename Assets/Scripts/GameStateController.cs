@@ -91,9 +91,11 @@ public class GameStateController : MonoBehaviour
 
     public Tile.TileOperation CreateOperation(int moveX, int moveY, int destroyX, int destroyY)
     {
-        return (Piece piece) => {
-            MovePiece(piece1, moveX, moveY);
-            DestroyTile(destroyX, destroyY);
+        return async (Piece piece) => {
+            var moveTask = MovePiece(piece1, moveX, moveY);
+            var destroyTask = DestroyTile(destroyX, destroyY);
+            await moveTask;
+            await destroyTask;
         };
     }
 
@@ -226,31 +228,31 @@ public class GameStateController : MonoBehaviour
         }
     }
 
-    public void DestroyTile(int x, int y)
+    private Task DestroyTile(int x, int y)
     {
-        NetworkClient.Send("TileDestroyed " + x + " " + y);
         TileDestroyed(x, y);
+        return NetworkClient.Send("TileDestroyed " + x + " " + y);
     }
 
-    public void MovePiece(Piece piece, int x, int y)
+    private Task MovePiece(Piece piece, int x, int y)
     {
         var tile = tiles[x, y];
         piece.Move(tile.gameObject);
-        NetworkClient.Send("Move " + tile.x + " " + tile.y);
+        return NetworkClient.Send("Move " + tile.x + " " + tile.y);
     }
 
-    public async void MoveSelected(Tile tile)
+    public Task MoveSelected(Tile tile)
     {
-        tile.Operation(piece1);
         currentState = GameState.Waiting;
         ClearHighlights();
+        return tile.Operation(piece1);
     }
 
-    public void TileHit(Tile tile)
+    public async Task TileHit(Tile tile)
     {
         if (currentState == GameState.SelectingMove &&
             tile.moveHightligt.activeSelf)
-            MoveSelected(tile);
+            await MoveSelected(tile);
     }
 
 	public void Test(Tile[,] tiles)

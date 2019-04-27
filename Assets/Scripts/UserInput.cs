@@ -11,16 +11,16 @@ public class UserInput : MonoBehaviour
         // Debug.Log(message);
     }
 
-    private void HandleTileHit(Tile tile)
+    private Task HandleTileHit(Tile tile)
     {
         Log("We hit a tile!");
-        gameStateController.TileHit(tile);
+        return gameStateController.TileHit(tile);
     }
 
     private void HandlePieceHit(Piece piece)
     {
         Log("We hit a piece!");
-        piece.Select();
+        // piece.Select();
     }
 
     private void HandleHit(RaycastHit hitInfo)
