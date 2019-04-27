@@ -14,14 +14,14 @@ public class CardDisplay : MonoBehaviour, IPointerClickHandler
 
     void Start()
     {
-        moveAmount.text = card.moveAmount;
-        attackAmount.text = card.attackAmount;
-        // flavorText.text = card.flavorText;
+        moveAmount.text = "" + card.moveAmount;
+        attackAmount.text = "" + card.attackAmount;
+        // flavorText.text = "" + card.flavorText;
     }
 
     void Select()
     {
-        GameStateController.GetInstance().CardSelected(this);
+        GameStateController.GetInstance().CardSelected(this.card);
     }
 
     public void OnPointerClick(PointerEventData eventData)

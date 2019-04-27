@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71701ee5151bd6f4e9179d299a77e933, type: 3}
-  m_Name: InitialCard
+  m_Name: Card3
   m_EditorClassIdentifier: 
-  moveAmount: 2
-  attackAmount: 4
-  flavorText: Move one unit in a range of 2 and then destroy any tile in a range of
-    4
+  moveAmount: 1
+  attackAmount: 2
+  flavorText: 0

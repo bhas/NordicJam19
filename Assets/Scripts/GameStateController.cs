@@ -97,11 +97,11 @@ public class GameStateController : MonoBehaviour
         }
     }
 
-    public void CardSelected(CardDisplay card)
+    public void CardSelected(Card card)
     {
         currentState = GameState.SelectingMove;
         deck.SetActive(false);
-        HighlightMoveOptions(2, piece1.x, piece1.y);
+        HighlightMoveOptions(card.moveAmount, piece1.x, piece1.y);
     }
 
     public void DeleteTile(int x, int y)

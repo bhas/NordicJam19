@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New card", menuName = "Card")]
 public class Card : ScriptableObject
 {
-    public string moveAmount;
-    public string attackAmount;
-    public string flavorText;
+    public int moveAmount;
+    public int attackAmount;
+    public int flavorText;
 }
