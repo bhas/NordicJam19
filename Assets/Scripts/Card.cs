@@ -8,4 +8,11 @@ public class Card : ScriptableObject
     public string moveAmount;
     public string attackAmount;
     public string flavorText;
+
+    public GameStateController gameStateController;
+
+    void Select()
+    {
+        gameStateController.CardSelected(this);
+    }
 }
