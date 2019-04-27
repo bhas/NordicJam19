@@ -12,6 +12,9 @@ public class NetworkClient : MonoBehaviour
     private static readonly Uri location = new Uri("wss://vast-lake-26314.herokuapp.com/");
     private static readonly ClientWebSocket cws = new ClientWebSocket();
     private static readonly Dictionary<string, MessageHandler> _handlers = new Dictionary<string, MessageHandler>();
+    private static readonly int sendTimeout = 60000;
+    private static readonly int connectionTimeout = 60000;
+    private static readonly int receiveTimeout = 3600000;
 
     private static Task<String> message;
 
@@ -23,7 +26,8 @@ public class NetworkClient : MonoBehaviour
     }
     private async Task Connect()
     {
-        await cws.ConnectAsync(location, CancellationToken.None);
+        using (var cts = new CancellationTokenSource(connectionTimeout))
+            await cws.ConnectAsync(location, cts.Token);
     }
 
     public static async Task Send(string message)
@@ -31,7 +35,8 @@ public class NetworkClient : MonoBehaviour
         var buffer = Encoding.UTF8.GetBytes(message);
         var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
         WebSocketReceiveResult recvResult;
-        await cws.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
+        using (var cts = new CancellationTokenSource(sendTimeout))
+            await cws.SendAsync(segment, WebSocketMessageType.Text, true, cts.Token);
     }
 
     private async Task<String> Receive()
@@ -40,7 +45,8 @@ public class NetworkClient : MonoBehaviour
         var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
         Log("Listening for message...");
         WebSocketReceiveResult recvResult;
-        recvResult = await cws.ReceiveAsync(segment, CancellationToken.None);
+        using (var cts = new CancellationTokenSource(receiveTimeout))
+            recvResult = await cws.ReceiveAsync(segment, cts.Token);
 
         var message = Encoding.UTF8.GetString(buffer, 0, recvResult.Count);
         Log("Received message: " + message);
@@ -54,9 +60,7 @@ public class NetworkClient : MonoBehaviour
 
     private void PollMessage()
     {
-        if (message != null && message.IsCanceled)
-            message = Receive();
-        else if (message != null && message.IsCompleted)
+        if (message != null && message.IsCompleted)
         {
             var messageText = message.Result;
             message = Receive();
