@@ -14,7 +14,7 @@ public class GameStateController : MonoBehaviour
     public Piece piece1;
     public Piece piece2;
 
-    enum GameState
+    public enum GameState
     {
         SelectingCard,
         SelectingMove
@@ -112,7 +112,7 @@ public class GameStateController : MonoBehaviour
 		var tileIndex = GetTileIndex(7,7, HexagonDirection.DownRight, 2);
 		print(tileIndex);
 		print(tiles.GetLength(0));
-		print(tiles.GetLength(1));
+		print(tiles.GetLength(1));  
 		if (HasEmptyTile(tileIndex.Item1, tileIndex.Item2))
 		{
 			print("Found it");
