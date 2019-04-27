@@ -14,6 +14,8 @@ public class GameStateController : MonoBehaviour
     public Piece piece1;
     public Piece piece2;
 
+    private static GameStateController _instance;
+
     public enum GameState
     {
         SelectingCard,
@@ -22,10 +24,16 @@ public class GameStateController : MonoBehaviour
 
     public GameState currentState;
 
+    public static GameStateController GetInstance()
+    {
+        return _instance;
+    }
+
     void Start()
     {
         statusText.text = "Click on a tile to move there!";
         currentState = GameState.SelectingCard;
+        _instance = this;
     }
 
     public void HighlightMoveOptions(int range,int tileX, int tileY)
@@ -88,7 +96,7 @@ public class GameStateController : MonoBehaviour
 
     }
 
-    public void CardSelected(Card card)
+    public void CardSelected(CardDisplay card)
     {
         currentState = GameState.SelectingMove;
     }
