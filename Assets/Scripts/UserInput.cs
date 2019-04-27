@@ -9,20 +9,26 @@ public class UserInput : MonoBehaviour
         // Debug.Log(message);
     }
 
+    private void HandleTileHit(Tile tile)
+    {
+        Log("We hit a tile!");
+        tile.SetHighlight(HighlightType.Move);
+    }
+
+    private void HandlePieceHit(Piece piece)
+    {
+        Log("We hit a piece!");
+        piece.Select();
+    }
+
     private void HandleHit(RaycastHit hitInfo)
     {
         var hitObject = hitInfo.transform.gameObject;
         if (hitObject.tag == "Tile")
+            HandleTileHit(hitObject.GetComponentInParent<Tile>());
+        else if (hitObject.tag == "Piece")
         {
-            Log("We hit a tile!");
-            var tile = hitObject.GetComponentInParent<Tile>();
-            tile.SetHighlight(HighlightType.Move);
-        }
-
-        if (hitObject.tag == "Piece")
-        {
-            Log("We hit a piece!");
-            Destroy(hitObject.transform.parent.gameObject);
+            HandlePieceHit(hitObject.GetComponentInParent<Piece>());
         }
     }
 

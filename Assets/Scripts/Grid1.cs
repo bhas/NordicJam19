@@ -39,6 +39,10 @@ public class Grid1 : MonoBehaviour
         piece.position = CalcWorldPos(gridPos);
         piece.parent = this.transform;
         piece.name = name;
+        var pieceScript = piece.GetComponent<Piece>();
+        pieceScript.x = x;
+        pieceScript.y = y;
+        
     }
 
     void CreatePieces()
