@@ -9,6 +9,9 @@ public class Grid1 : MonoBehaviour
 	public GameStateController Test;
 
     public Transform hexOrefab;
+    public Transform piece1fab;
+    public Transform piece2fab;
+
     public bool[,] mapLayOutInt;
 	public Tile[,] Tiles;
 
@@ -26,7 +29,22 @@ public class Grid1 : MonoBehaviour
         AddGap();
         CalcStartPos();
         CreateGrid();
-        
+        CreatePieces();
+    }
+
+    void CreatePiece(string name, Transform prefab, int x, int y)
+    {
+        Transform piece = (Transform)Instantiate(piece1fab);
+        Vector2 gridPos = new Vector2(x, y);
+        piece.position = CalcWorldPos(gridPos);
+        piece.parent = this.transform;
+        piece.name = name;
+    }
+
+    void CreatePieces()
+    {
+        CreatePiece("Piece1", piece1fab, 7, 7);
+        CreatePiece("Piece2", piece2fab, 0, 0);
     }
 
     void ReadMapFile()
@@ -87,7 +105,7 @@ public class Grid1 : MonoBehaviour
             {
                 if (mapLayOutInt[x, y])
                 {
-                    Transform hex = Instantiate(hexOrefab) as Transform;
+                    Transform hex = (Transform)Instantiate(hexOrefab);
                     Vector2 gridPos = new Vector2(x, y);
                     hex.position = CalcWorldPos(gridPos);
                     hex.parent = this.transform;
