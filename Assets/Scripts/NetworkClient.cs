@@ -36,7 +36,7 @@ public class NetworkClient : MonoBehaviour
 
     private async Task<String> Receive()
     {
-        var buffer = new byte[2048];
+        var buffer = new byte[512];
         var segment = new ArraySegment<byte>(buffer, 0, buffer.Length);
         Log("Listening for message...");
         WebSocketReceiveResult recvResult;
@@ -54,7 +54,9 @@ public class NetworkClient : MonoBehaviour
 
     private void PollMessage()
     {
-        if (message != null && message.IsCompleted)
+        if (message != null && message.IsCanceled)
+            message = Receive();
+        else if (message != null && message.IsCompleted)
         {
             var messageText = message.Result;
             message = Receive();
