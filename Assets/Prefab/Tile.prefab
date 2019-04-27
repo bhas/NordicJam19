@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5701297632708946961}
   - component: {fileID: 3572970164382168841}
+  - component: {fileID: 8684144534436060959}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -51,6 +52,22 @@ MonoBehaviour:
   moveHightligt: {fileID: 5428480140392091795}
   attackHightligt: {fileID: 8840054477621750466}
   gameStateController: {fileID: 0}
+--- !u!111 &8684144534436060959
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924102531207902430}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: b11462841830db043bf720c2890a4c9f, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &5428480140392091795
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +335,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: c1387b207d793de43961b0c02af94a7c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1387b207d793de43961b0c02af94a7c, type: 3}
