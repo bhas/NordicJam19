@@ -25,6 +25,7 @@ public class GameStateController : MonoBehaviour
     void Start()
     {
         statusText.text = "Click on a tile to move there!";
+        currentState = GameState.SelectingCard;
     }
 
     public void HighlightMoveOptions(int range,int tileX, int tileY)
@@ -87,22 +88,24 @@ public class GameStateController : MonoBehaviour
 
     }
 
-    public void CardSelected()
+    public void CardSelected(Card card)
     {
+        currentState = GameState.SelectingMove;
+    }
 
+    public void MoveSelected()
+    {
+        piece1.Move(tile.gameObject);
+        statusText.text = "";
+        currentState = GameState.SelectingCard;
     }
 
     public void TileHit(Tile tile)
     {
         if (currentState == GameState.SelectingCard)
-        {
-            piece1.Move(tile.gameObject);
-            statusText.text = "";
-        }
+            MoveSelected();
         else if (currentState == GameState.SelectingMove)
-        {
-
-        }
+            MoveSelected();
     }
 
 	public void Test(Tile[,] tiles)
