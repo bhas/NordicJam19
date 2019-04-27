@@ -132,5 +132,6 @@ public class Grid1 : MonoBehaviour
             }
         }
         gameStateController.tiles = Tiles;
+        gameStateController.HighlightMoveOptions(2, 3, 3);
     }
 }
