@@ -42,7 +42,7 @@ public class Grid1 : MonoBehaviour
         var pieceScript = piece.GetComponent<Piece>();
         pieceScript.x = x;
         pieceScript.y = y;
-        
+        pieceScript.tile = Tiles[x, y];
     }
 
     void CreatePieces()
