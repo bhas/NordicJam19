@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Threading;
 
 public class Tile : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class Tile : MonoBehaviour
 
     public GameStateController gameStateController;
 
-    public async delegate void TileOperation(Piece piece);
+    public delegate Task TileOperation(Piece piece);
 
     public TileOperation Operation;
 
