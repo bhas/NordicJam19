@@ -14,6 +14,8 @@ public class GameStateController : MonoBehaviour
     public Piece piece1;
     public Piece piece2;
 
+    public GameObject deck;
+
     private static GameStateController _instance;
 
     public enum GameState
@@ -99,6 +101,7 @@ public class GameStateController : MonoBehaviour
     public void CardSelected(CardDisplay card)
     {
         currentState = GameState.SelectingMove;
+        deck.SetActive(false);
     }
 
     public void MoveSelected(Tile tile)
@@ -106,6 +109,7 @@ public class GameStateController : MonoBehaviour
         piece1.Move(tile.gameObject);
         statusText.text = "";
         currentState = GameState.SelectingCard;
+        deck.SetActive(true);
     }
 
     public void TileHit(Tile tile)
