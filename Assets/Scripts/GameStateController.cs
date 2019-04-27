@@ -95,21 +95,13 @@ public class GameStateController : MonoBehaviour
             var tile = tiles[tileIndex5.Item1, tileIndex5.Item2];
             tile.SetHighlight(HighlightType.Move);
         }
-
     }
 
     public void CardSelected(CardDisplay card)
     {
         currentState = GameState.SelectingMove;
         deck.SetActive(false);
-    }
-
-    public void MoveSelected(Tile tile)
-    {
-        //piece1.Move(tile.gameObject);
-        statusText.text = "";
-        currentState = GameState.SelectingCard;
-        deck.SetActive(true);
+        HighlightMoveOptions(2, piece1.x, piece1.y);
     }
 
     public void DeleteTile(int x, int y)
@@ -119,9 +111,26 @@ public class GameStateController : MonoBehaviour
         tiles[x, y] = null;
     }
 
+    private void ClearHighlights()
+    {
+        foreach (var tile in tiles) {
+            if (tile != null)
+                tile.SetHighlight(HighlightType.None);
+        }
+    }
+    
+    public void MoveSelected(Tile tile)
+    {
+        ClearHighlights();
+        piece1.Move(tile.gameObject);
+        currentState = GameState.SelectingCard;
+        deck.SetActive(true);
+    }
+
     public void TileHit(Tile tile)
     {
-        if (currentState == GameState.SelectingMove)
+        if (currentState == GameState.SelectingMove &&
+            tile.moveHightligt.activeSelf)
             MoveSelected(tile);
     }
 

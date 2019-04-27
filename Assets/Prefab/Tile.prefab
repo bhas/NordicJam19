@@ -46,8 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ee7f3cb953ac34f9e72c952105002a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  y: 0
   moveHightligt: {fileID: 5428480140392091795}
   attackHightligt: {fileID: 8840054477621750466}
+  gameStateController: {fileID: 0}
 --- !u!1 &5428480140392091795
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +65,7 @@ GameObject:
   - component: {fileID: 3514416231305438280}
   m_Layer: 0
   m_Name: move highglight
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,7 +170,7 @@ GameObject:
   - component: {fileID: 7744374590696264556}
   m_Layer: 0
   m_Name: attack highglight
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
