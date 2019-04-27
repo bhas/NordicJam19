@@ -323,11 +323,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2808eb6c34c998c489743ca6ba58869b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapFile: {fileID: 4900000, guid: c85999a9ec7465645adaf2220d87b03b, type: 3}
   hexOrefab: {fileID: 5701297632708946961, guid: 767c6948f113b184ca7c7fb222e89d7c,
     type: 3}
-  gridWidth: 11
-  gridHeight: 11
-  hexwidth: 0.95
+  hexwidth: 0.87
   gap: 0
 --- !u!4 &2023794461
 Transform:

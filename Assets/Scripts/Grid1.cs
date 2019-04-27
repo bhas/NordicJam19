@@ -82,7 +82,7 @@ public class Grid1 : MonoBehaviour
         {
             for (int x = 0; x < gridWidth; x++)
             {
-                if (mapLayOutInt[x, y])
+                if (mapLayOutInt[y, x])
                 {
                     Transform hex = Instantiate(hexOrefab) as Transform;
                     Vector2 gridPos = new Vector2(x, y);
