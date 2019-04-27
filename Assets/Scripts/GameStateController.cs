@@ -40,7 +40,7 @@ public class GameStateController : MonoBehaviour
     {
         Debug.Log("Move: " + x + ", " + y);
         Debug.Log("Enemy location: " + piece2.x + ", " + piece2.y);
-        enemyMove = () => piece2.Move(tiles[x, y].gameObject);
+        piece2.Move(tiles[x, y].gameObject);
     }
 
     private void SetPlayer(string[] parameters)
@@ -78,8 +78,11 @@ public class GameStateController : MonoBehaviour
         var moveY = int.Parse(parameters[2]);
         var destroyX = int.Parse(parameters[3]);
         var destroyY = int.Parse(parameters[4]);
-        EnemyMoved(moveX, moveY);
-        TileDestroyed(destroyX, destroyY);
+        enemyMove = () =>
+            {
+                EnemyMoved(moveX, moveY);
+                TileDestroyed(destroyX, destroyY);
+            };
     }
 
     void Start()
