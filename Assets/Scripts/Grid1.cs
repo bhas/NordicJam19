@@ -50,8 +50,8 @@ public class Grid1 : MonoBehaviour
 
     void CreatePieces()
     {
-        gameStateController.piece1 = CreatePiece("Piece1", piece1fab, 7, 7);
-        gameStateController.piece2 = CreatePiece("Piece2", piece2fab, 0, 0);
+        gameStateController.piece1 = CreatePiece("Piece1", piece1fab, 4, 5);
+        gameStateController.piece2 = CreatePiece("Piece2", piece2fab, 2, 2);
     }
 
     void ReadMapFile()
