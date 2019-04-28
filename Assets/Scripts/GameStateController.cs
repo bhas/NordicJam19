@@ -45,7 +45,14 @@ public class GameStateController : MonoBehaviour
     {
         Debug.Log("Move: " + x + ", " + y);
         Debug.Log("Enemy location: " + piece2.x + ", " + piece2.y);
-        piece2.Move(tiles[x, y].gameObject);
+        Vector2 gridPos = new Vector2(x, y);
+        piece2.Move(x, y, Grid1.CalcWorldPos(gridPos));
+    }
+
+    IEnumerator HideStatusTextAfterTwoSeconds()
+    {
+        yield return new WaitForSeconds(2);
+        statusText.gameObject.SetActive(false);
     }
 
     private void SetPlayer(string[] parameters)
@@ -53,7 +60,7 @@ public class GameStateController : MonoBehaviour
         var player = int.Parse(parameters[1]);
         statusText.text = "You are player " + player + "!";
         statusText.gameObject.SetActive(true);
-        Destroy(statusText.gameObject, 2);
+        StartCoroutine(HideStatusTextAfterTwoSeconds());
         if (player == 2)
             SwapPlayers();
     }
@@ -171,8 +178,8 @@ public class GameStateController : MonoBehaviour
 
     public void MovePiece(Piece piece, int x, int y)
     {
-        var tile = tiles[x, y];
-        piece.Move(tile.gameObject);
+        Vector2 gridPos = new Vector2(x, y);
+        piece.Move(x, y, Grid1.CalcWorldPos(gridPos));
     }
 
     public Task MoveSelected(Tile tile)
