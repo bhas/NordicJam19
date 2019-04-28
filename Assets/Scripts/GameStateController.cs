@@ -98,6 +98,23 @@ public class GameStateController : MonoBehaviour
             };
     }
 
+    void LineOfDoomHandler(string[] parameters)
+    {
+        var moveX = int.Parse(parameters[1]);
+        var moveY = int.Parse(parameters[2]);
+        var doomLine = new List<Tuple< int, int>>();
+        for (var i = 3; i < parameters.Length; i += 2)
+        {
+            var x = int.Parse(parameters[i]);
+            var y = int.Parse(parameters[i + 1]);
+            doomLine.Add(new Tuple<int, int>(x, y));
+        }
+        enemyMove = () =>
+        {
+            LineOfDoomCard.ExecuteLineOfDoom(piece2, moveX, moveY, doomLine);
+        };
+    }
+
     void Start()
     {
         statusText.text = "Click on a tile to move there!";
@@ -105,6 +122,7 @@ public class GameStateController : MonoBehaviour
         _instance = this;
 
         NetworkClient.RegisterHandler("MoveAndDestroy", MoveAndDestroyHandler);
+        NetworkClient.RegisterHandler("DoomLine", LineOfDoomHandler);
         NetworkClient.RegisterHandler("SetPlayer", SetPlayer);
     }
 

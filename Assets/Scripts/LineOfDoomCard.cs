@@ -15,13 +15,19 @@ public class LineOfDoomCard : MonoBehaviour, ICardOperation
         return builder.ToString();
     }
 
-    private static Tile.TileOperation CreateOperation(int moveX, int moveY, List<Tuple<int, int>> doomLine)
+    public static void ExecuteLineOfDoom(Piece piece, int moveX, int moveY, List<Tuple<int, int>> doomLine)
     {
         var gameController = GameStateController.GetInstance();
+        gameController.MovePiece(piece, moveX, moveY);
+        foreach (var pair in doomLine)
+            gameController.DestroyTile(pair.Item1, pair.Item2);
+    }
+
+    private static Tile.TileOperation CreateOperation(int moveX, int moveY, List<Tuple<int, int>> doomLine)
+    {
         return (Piece piece) => {
-            gameController.MovePiece(gameController.piece1, moveX, moveY);
-            foreach (var pair in doomLine)
-                gameController.DestroyTile(pair.Item1, pair.Item2);
+            var gameController = GameStateController.GetInstance();
+            ExecuteLineOfDoom(gameController.piece1, moveX, moveY, doomLine);
             return NetworkClient.Send(CreateCommand(moveX, moveY, doomLine));
         };
     }
@@ -70,9 +76,10 @@ public class LineOfDoomCard : MonoBehaviour, ICardOperation
                 {
                     var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                     tileAtt.SetHighlight(HighlightType.Attack);
+                    doomLine.Add(tileIndexAtt);
                 }
             }
-            tile.Operation = CreateOperation(tileIndex.Item1, tileIndex.Item2, doomLine);
+            tile.Operation = CreateOperation(tileIndex1.Item1, tileIndex1.Item2, doomLine);
         }
 
         //DownRight:
@@ -86,14 +93,15 @@ public class LineOfDoomCard : MonoBehaviour, ICardOperation
             var doomLine = new List<Tuple<int, int>>();
             for (int i = 1; i < 100; i++)
             {
-                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range + 1);
+                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range + i);
                 if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
                 {
                     var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                     tileAtt.SetHighlight(HighlightType.Attack);
+                    doomLine.Add(tileIndexAtt);
                 }
             }
-            tile.Operation = CreateOperation(tileIndex.Item1, tileIndex.Item2, doomLine);
+            tile.Operation = CreateOperation(tileIndex2.Item1, tileIndex2.Item2, doomLine);
         }
 
         //DownLeft:
@@ -107,14 +115,15 @@ public class LineOfDoomCard : MonoBehaviour, ICardOperation
             var doomLine = new List<Tuple<int, int>>();
             for (int i = 1; i < 100; i++)
             {
-                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range + 1);
+                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range + i);
                 if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
                 {
                     var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                     tileAtt.SetHighlight(HighlightType.Attack);
+                    doomLine.Add(tileIndexAtt);
                 }
             }
-            tile.Operation = CreateOperation(tileIndex.Item1, tileIndex.Item2, doomLine);
+            tile.Operation = CreateOperation(tileIndex3.Item1, tileIndex3.Item2, doomLine);
         }
 
         //Right:
@@ -128,14 +137,15 @@ public class LineOfDoomCard : MonoBehaviour, ICardOperation
             var doomLine = new List<Tuple<int, int>>();
             for (int i = 1; i < 100; i++)
             {
-                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Right, range + 1);
+                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Right, range + i);
                 if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
                 {
                     var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                     tileAtt.SetHighlight(HighlightType.Attack);
+                    doomLine.Add(tileIndexAtt);
                 }
             }
-            tile.Operation = CreateOperation(tileIndex.Item1, tileIndex.Item2, doomLine);
+            tile.Operation = CreateOperation(tileIndex4.Item1, tileIndex4.Item2, doomLine);
         }
 
         //Left:
@@ -149,14 +159,15 @@ public class LineOfDoomCard : MonoBehaviour, ICardOperation
             var doomLine = new List<Tuple<int, int>>();
             for (int i = 1; i < 100; i++)
             {
-                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Left, range + 1);
+                var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Left, range + i);
                 if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
                 {
                     var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                     tileAtt.SetHighlight(HighlightType.Attack);
+                    doomLine.Add(tileIndexAtt);
                 }
             }
-            tile.Operation = CreateOperation(tileIndex.Item1, tileIndex.Item2, doomLine);
+            tile.Operation = CreateOperation(tileIndex5.Item1, tileIndex5.Item2, doomLine);
         }
     }
 
