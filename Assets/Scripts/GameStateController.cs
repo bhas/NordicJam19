@@ -24,11 +24,14 @@ public class GameStateController : MonoBehaviour
 
     private Action enemyMove = null;
 
+    private static bool isPlayer2 = false;
+
     public enum GameState
     {
         SelectingCard,
         SelectingMove,
-        Waiting
+        Waiting,
+        GameOver
     }
 
     public GameState currentState;
@@ -70,6 +73,7 @@ public class GameStateController : MonoBehaviour
         var tmp = piece1;
         piece1 = piece2;
         piece2 = tmp;
+        isPlayer2 = true;
     }
 
     void MoveAndDestroyHandler(string[] parameters)
@@ -97,6 +101,22 @@ public class GameStateController : MonoBehaviour
         NetworkClient.RegisterHandler("SetPlayer", SetPlayer);
     }
 
+    void YouWon()
+    {
+        statusText.text = "You won! Yay!";
+        statusText.gameObject.SetActive(true);
+        Destroy(piece2);
+        currentState = GameState.GameOver;
+    }
+
+    void YouLost()
+    {
+        statusText.text = "You lost! Shame!";
+        statusText.gameObject.SetActive(true);
+        Destroy(piece1);
+        currentState = GameState.GameOver;
+    }
+
     void Update()
     {
         if (currentState == GameState.Waiting && enemyMove != null)
@@ -105,20 +125,20 @@ public class GameStateController : MonoBehaviour
             currentState = GameState.SelectingCard;
             deck.SetActive(true);
             enemyMove = null;
-        }
 
-        if (!HasEmptyTile(piece1.x,piece1.y))
-        {
-            statusText.text = "Player 2 has WON, Player 1 STINKS";
-            statusText.gameObject.SetActive(true);
-            Destroy(piece1);
-        }
+            if (!HasTile(piece1.x, piece1.y) && !HasTile(piece2.x, piece2.y))
+            {
+                statusText.text = "It's a draw! A pox on both your houses!";
+                statusText.gameObject.SetActive(true);
+                currentState = GameState.GameOver;
+                return;
+            }
 
-        if (!HasEmptyTile(piece2.x, piece2.y))
-        {
-            statusText.text = "Player 1 has WON, Player 2 STINKS";
-            statusText.gameObject.SetActive(true);
-            Destroy(piece2);
+            if (!HasTile(piece1.x, piece1.y))
+                YouLost();
+
+            if (!HasTile(piece2.x, piece2.y))
+                YouWon();
         }
     }
 
@@ -169,7 +189,7 @@ public class GameStateController : MonoBehaviour
             await MoveSelected(tile);
     }
 
-	public bool HasEmptyTile(int x, int y)
+	public bool HasTile(int x, int y)
 	{
 		if (x < 0 || x >= tiles.GetLength(0))
 			return false;

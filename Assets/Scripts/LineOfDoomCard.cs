@@ -9,9 +9,9 @@ public class LineOfDoomCard : MonoBehaviour, ICardOperation
 
     }
 
-    bool HasEmptyTile(int x, int y)
+    bool HasTile(int x, int y)
     {
         var gameController = GameStateController.GetInstance();
-        return gameController.HasEmptyTile(x, y);
+        return gameController.HasTile(x, y);
     }
 }
