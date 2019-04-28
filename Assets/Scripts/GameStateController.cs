@@ -58,7 +58,7 @@ public class GameStateController : MonoBehaviour
         Debug.Log("Tile destroyed: " + x + ", " + y);
         if (tiles[x, y] != null)
         {
-            Destroy(tiles[x, y].gameObject);
+			StartCoroutine(tiles[x, y].AnimateAndDestroy());
             tiles[x, y] = null;
         }
     }

@@ -18,8 +18,12 @@ public class Tile : MonoBehaviour
 
     public TileOperation Operation;
 
-	public void Start()
+	public IEnumerator AnimateAndDestroy()
 	{
+		GetComponent<Animator>().SetTrigger("Destroy");
+
+		yield return new WaitForSeconds(1f);
+		Destroy(gameObject);
 	}
 
     public void SetHighlight(HighlightType type)
