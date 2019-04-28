@@ -17,7 +17,7 @@ public class FogGenerator : MonoBehaviour
 			var pos = transform.position - new Vector3(0, offset + thickness * i, 0);
 			var gameObject = GameObject.Instantiate(prefab, pos, Quaternion.Euler(90, 0, 0), transform);
 
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(0.08f,0.1f,0.13f, 0.05f + i * 0.015f);
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(0.08f,0.1f,0.13f, i * 0.015f);
 		}
     }
 

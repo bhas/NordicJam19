@@ -18,6 +18,10 @@ public class Tile : MonoBehaviour
 
     public TileOperation Operation;
 
+	public void Start()
+	{
+	}
+
     public void SetHighlight(HighlightType type)
 	{
 		moveHightligt.SetActive(type == HighlightType.Move);

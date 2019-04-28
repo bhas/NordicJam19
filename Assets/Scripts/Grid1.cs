@@ -30,7 +30,7 @@ public class Grid1 : MonoBehaviour
         ReadMapFile();
         AddGap();
         CalcStartPos();
-        CreateGrid();
+		CreateGrid();
         CreatePieces();
     }
 
@@ -113,23 +113,32 @@ public class Grid1 : MonoBehaviour
             {
                 if (mapLayOutInt[x, y])
                 {
-                    Transform hex = Instantiate(hexOrefab) as Transform;
-                    Vector2 gridPos = new Vector2(x, y);
-                    hex.position = CalcWorldPos(gridPos);
-                    hex.parent = this.transform;
-                    hex.name = "Hexagon" + x + "|" + y;
-                    var tileScript = hex.GetComponent<Tile>();
-                    tileScript.x = x;
-                    tileScript.y = y;
-                    tileScript.gameStateController = gameStateController;
-                    Tiles[x, y] = tileScript;
+					StartCoroutine(CreateTileAsync(x, y));
 				}
                 else
                 {
                     print("get the fuck out");
                 }
+				
             }
         }
         gameStateController.tiles = Tiles;
     }
+
+	private IEnumerator CreateTileAsync(int x, int y)
+	{
+		float seconds = x * 0.07f + y * 0.16f;
+		yield return new WaitForSeconds(seconds);
+
+		Transform hex = Instantiate(hexOrefab) as Transform;
+		Vector2 gridPos = new Vector2(x, y);
+		hex.position = CalcWorldPos(gridPos);
+		hex.parent = this.transform;
+		hex.name = "Hexagon" + x + "|" + y;
+		var tileScript = hex.GetComponent<Tile>();
+		tileScript.x = x;
+		tileScript.y = y;
+		tileScript.gameStateController = gameStateController;
+		Tiles[x, y] = tileScript;
+	}
 }

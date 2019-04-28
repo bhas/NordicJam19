@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5701297632708946961}
   - component: {fileID: 3572970164382168841}
-  - component: {fileID: 8684144534436060959}
+  - component: {fileID: 4809503625134113303}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -52,22 +52,25 @@ MonoBehaviour:
   moveHightligt: {fileID: 5428480140392091795}
   attackHightligt: {fileID: 8840054477621750466}
   gameStateController: {fileID: 0}
---- !u!111 &8684144534436060959
-Animation:
+--- !u!95 &4809503625134113303
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3924102531207902430}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: b11462841830db043bf720c2890a4c9f, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4b508e706edd3484b814797c06926bb7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5428480140392091795
 GameObject:
   m_ObjectHideFlags: 0
