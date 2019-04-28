@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAndDestroyCard : MonoBehaviour
+public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
 {
     private static Tile.TileOperation CreateOperation(int moveX, int moveY, int destroyX, int destroyY)
     {
