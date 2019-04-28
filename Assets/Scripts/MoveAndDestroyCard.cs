@@ -15,10 +15,10 @@ public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
         };
     }
 
-    bool HasEmptyTile(int x, int y)
+    bool HasTile(int x, int y)
     {
         var gameController = GameStateController.GetInstance();
-        return gameController.HasEmptyTile(x, y);
+        return gameController.HasTile(x, y);
     }
 
     public static Tuple<int, int> GetTileIndex(int posx, int posy, HexagonDirection dir, int range)
@@ -34,13 +34,13 @@ public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
         //UpRight:
         var tileIndex = GetTileIndex(tileX, tileY, HexagonDirection.UpRight, range);
 
-        if (HasEmptyTile(tileIndex.Item1, tileIndex.Item2))
+        if (HasTile(tileIndex.Item1, tileIndex.Item2))
         {
             var tile = tiles[tileIndex.Item1, tileIndex.Item2];
             tile.SetHighlight(HighlightType.Move);
 
             var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.UpRight, range + 1);
-            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
                 var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
@@ -52,13 +52,13 @@ public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
         //UpLeft:
         var tileIndex1 = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range);
 
-        if (HasEmptyTile(tileIndex1.Item1, tileIndex1.Item2))
+        if (HasTile(tileIndex1.Item1, tileIndex1.Item2))
         {
             var tile = tiles[tileIndex1.Item1, tileIndex1.Item2];
             tile.SetHighlight(HighlightType.Move);
 
             var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range + 1);
-            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
                 var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
@@ -69,13 +69,13 @@ public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
         //DownRight:
         var tileIndex2 = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range);
 
-        if (HasEmptyTile(tileIndex2.Item1, tileIndex2.Item2))
+        if (HasTile(tileIndex2.Item1, tileIndex2.Item2))
         {
             var tile = tiles[tileIndex2.Item1, tileIndex2.Item2];
             tile.SetHighlight(HighlightType.Move);
 
             var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range + 1);
-            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
                 var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
@@ -86,13 +86,13 @@ public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
         //DownLeft:
         var tileIndex3 = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range);
 
-        if (HasEmptyTile(tileIndex3.Item1, tileIndex3.Item2))
+        if (HasTile(tileIndex3.Item1, tileIndex3.Item2))
         {
             var tile = tiles[tileIndex3.Item1, tileIndex3.Item2];
             tile.SetHighlight(HighlightType.Move);
 
             var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range + 1);
-            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
                 var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
@@ -103,13 +103,13 @@ public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
         //Right:
         var tileIndex4 = GetTileIndex(tileX, tileY, HexagonDirection.Right, range);
 
-        if (HasEmptyTile(tileIndex4.Item1, tileIndex4.Item2))
+        if (HasTile(tileIndex4.Item1, tileIndex4.Item2))
         {
             var tile = tiles[tileIndex4.Item1, tileIndex4.Item2];
             tile.SetHighlight(HighlightType.Move);
 
             var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Right, range + 1);
-            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
                 var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
@@ -120,13 +120,13 @@ public class MoveAndDestroyCard : MonoBehaviour, ICardOperation
         //Left:
         var tileIndex5 = GetTileIndex(tileX, tileY, HexagonDirection.Left, range);
 
-        if (HasEmptyTile(tileIndex5.Item1, tileIndex5.Item2))
+        if (HasTile(tileIndex5.Item1, tileIndex5.Item2))
         {
             var tile = tiles[tileIndex5.Item1, tileIndex5.Item2];
             tile.SetHighlight(HighlightType.Move);
 
             var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Left, range + 1);
-            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            if (HasTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
             {
                 var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
                 tileAtt.SetHighlight(HighlightType.Attack);
