@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4337640269922853805}
   - component: {fileID: 2183784062166934555}
+  - component: {fileID: 2703155796533933818}
   m_Layer: 0
   m_Name: Piece1
   m_TagString: Untagged
@@ -46,6 +47,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 0
   y: 0
+  tile: {fileID: 0}
+--- !u!95 &2703155796533933818
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900438557682957985}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1598fa54da5c8d848bbce64fca20504a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!64 &3721321260351095037
 MeshCollider:
   m_ObjectHideFlags: 0

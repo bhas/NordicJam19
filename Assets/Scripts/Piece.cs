@@ -7,7 +7,15 @@ public class Piece : MonoBehaviour
     public int x;
     public int y;
 
-    public void Move(int _x, int _y, Vector3 worldPosition)
+	public IEnumerator AnimateAndDestroy()
+	{
+		GetComponent<Animator>().SetTrigger("Destroy");
+
+		yield return new WaitForSeconds(1f);
+		Destroy(gameObject);
+	}
+
+	public void Move(int _x, int _y, Vector3 worldPosition)
     {
         x = _x;
         y = _y;
