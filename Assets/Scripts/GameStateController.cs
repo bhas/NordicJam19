@@ -49,12 +49,18 @@ public class GameStateController : MonoBehaviour
         piece2.Move(x, y, Grid1.CalcWorldPos(gridPos));
     }
 
+    IEnumerator HideStatusTextAfterTwoSeconds()
+    {
+        yield return new WaitForSeconds(2);
+        statusText.gameObject.SetActive(false);
+    }
+
     private void SetPlayer(string[] parameters)
     {
         var player = int.Parse(parameters[1]);
         statusText.text = "You are player " + player + "!";
         statusText.gameObject.SetActive(true);
-        Destroy(statusText.gameObject, 2);
+        StartCoroutine(HideStatusTextAfterTwoSeconds());
         if (player == 2)
             SwapPlayers();
     }
