@@ -13,7 +13,15 @@ public class Piece : MonoBehaviour
         tile.SetHighlight(HighlightType.Move);
     }
 
-    public void Move(GameObject destinationTile)
+	public IEnumerator AnimateAndDestroy()
+	{
+		GetComponent<Animator>().SetTrigger("Destroy");
+
+		yield return new WaitForSeconds(1f);
+		Destroy(gameObject);
+	}
+
+	public void Move(GameObject destinationTile)
     {
         tile = destinationTile.GetComponent<Tile>();
         x = tile.x;
