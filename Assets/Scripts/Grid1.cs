@@ -36,7 +36,7 @@ public class Grid1 : MonoBehaviour
 
     private Piece CreatePiece(string name, Transform prefab, int x, int y)
     {
-        Transform piece = (Transform)Instantiate(piece1fab);
+        Transform piece = (Transform)Instantiate(prefab);
         Vector2 gridPos = new Vector2(x, y);
         piece.position = CalcWorldPos(gridPos);
         piece.parent = this.transform;
