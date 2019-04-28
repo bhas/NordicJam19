@@ -106,6 +106,20 @@ public class GameStateController : MonoBehaviour
             deck.SetActive(true);
             enemyMove = null;
         }
+
+        if (!HasEmptyTile(piece1.x,piece1.y))
+        {
+            statusText.text = "Player 2 has WON, Player 1 STINKS";
+            statusText.gameObject.SetActive(true);
+            Destroy(piece1);
+        }
+
+        if (!HasEmptyTile(piece2.x, piece2.y))
+        {
+            statusText.text = "Player 1 has WON, Player 2 STINKS";
+            statusText.gameObject.SetActive(true);
+            Destroy(piece2);
+        }
     }
 
     public void CardSelected(Card card)
