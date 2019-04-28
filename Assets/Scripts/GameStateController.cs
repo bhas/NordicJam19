@@ -124,6 +124,13 @@ public class GameStateController : MonoBehaviour
         currentState = GameState.GameOver;
     }
 
+    void Draw()
+    {
+        statusText.text = "It's a draw! A pox on both your houses!";
+        statusText.gameObject.SetActive(true);
+        currentState = GameState.GameOver;
+    }
+
     void Update()
     {
         if (currentState == GameState.Waiting && enemyMove != null)
@@ -133,19 +140,16 @@ public class GameStateController : MonoBehaviour
             deck.SetActive(true);
             enemyMove = null;
 
-            if (!HasTile(piece1.x, piece1.y) && !HasTile(piece2.x, piece2.y))
-            {
-                statusText.text = "It's a draw! A pox on both your houses!";
-                statusText.gameObject.SetActive(true);
-                currentState = GameState.GameOver;
-                return;
+            if ((piece1.x == piece2.x && piece1.y == piece2.y) ||
+                (!HasTile(piece1.x, piece1.y) && !HasTile(piece2.x, piece2.y)))
+                Draw();
+            else {
+                if (!HasTile(piece1.x, piece1.y))
+                    YouLost();
+
+                if (!HasTile(piece2.x, piece2.y))
+                    YouWon();
             }
-
-            if (!HasTile(piece1.x, piece1.y))
-                YouLost();
-
-            if (!HasTile(piece2.x, piece2.y))
-                YouWon();
         }
     }
 
