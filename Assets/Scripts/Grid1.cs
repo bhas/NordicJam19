@@ -14,16 +14,16 @@ public class Grid1 : MonoBehaviour
     public bool[,] mapLayOutInt;
 	public Tile[,] Tiles;
 
-	public float hexwidth = 1.1f;
-    float hexheight = 1f;
+	public static float hexwidth = 0.87f;
+    static float hexheight = 1f;
 
-    public float gap = 0.0f;
+    public static float gap = 0.05f;
 
     public GameStateController gameStateController;
 
     int gridWidth;
     int gridHeight;
-    Vector3 startPos;
+    static Vector3 startPos;
 
     void Start()
     {
@@ -44,7 +44,6 @@ public class Grid1 : MonoBehaviour
         var pieceScript = piece.GetComponent<Piece>();
         pieceScript.x = x;
         pieceScript.y = y;
-        pieceScript.tile = Tiles[x, y];
         return pieceScript;
     }
 
@@ -93,7 +92,7 @@ public class Grid1 : MonoBehaviour
         startPos = new Vector3(x, 0, z);
     }
 
-    Vector3 CalcWorldPos(Vector3 gridPos)
+    public static Vector3 CalcWorldPos(Vector3 gridPos)
     {
         float offset = 0;
         if (gridPos.y % 2 != 0)

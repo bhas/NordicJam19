@@ -6,18 +6,11 @@ public class Piece : MonoBehaviour
 {
     public int x;
     public int y;
-    public Tile tile;
 
-    public void Select()
+    public void Move(int _x, int _y, Vector3 worldPosition)
     {
-        tile.SetHighlight(HighlightType.Move);
-    }
-
-    public void Move(GameObject destinationTile)
-    {
-        tile = destinationTile.GetComponent<Tile>();
-        x = tile.x;
-        y = tile.y;
-        transform.position = destinationTile.transform.position;
+        x = _x;
+        y = _y;
+        transform.position = worldPosition;
     }
 }
