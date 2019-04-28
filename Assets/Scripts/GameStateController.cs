@@ -104,6 +104,7 @@ public class GameStateController : MonoBehaviour
             enemyMove();
             currentState = GameState.SelectingCard;
             deck.SetActive(true);
+            enemyMove = null;
         }
     }
 
