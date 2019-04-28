@@ -18,7 +18,7 @@ public class GameStateController : MonoBehaviour
 
     public GameObject deck;
 
-    private ICardOperation cardOperation = new MoveAndDestroyCard();
+    private ICardOperation cardOperation = new LineOfDoomCard();
 
     private static GameStateController _instance;
 
