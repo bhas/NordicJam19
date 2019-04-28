@@ -1,0 +1,174 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MoveAndDestroyCard : MonoBehaviour
+{
+    private static Tile.TileOperation CreateOperation(int moveX, int moveY, int destroyX, int destroyY)
+    {
+        var gameController = GameStateController.GetInstance();
+        return (Piece piece) => {
+            gameController.MovePiece(gameController.piece1, moveX, moveY);
+            gameController.DestroyTile(destroyX, destroyY);
+            return NetworkClient.Send("MoveAndDestroy " + moveX + " " + moveY + " " + destroyX + " " + destroyY);
+        };
+    }
+
+    bool HasEmptyTile(int x, int y)
+    {
+        var gameController = GameStateController.GetInstance();
+        return gameController.HasEmptyTile(x, y);
+    }
+
+    public Tuple<int, int> GetTileIndex(int posx, int posy, HexagonDirection dir, int range)
+    {
+        var offsetX = 0;
+        var offsetY = 0;
+
+        switch (dir)
+        {
+            case HexagonDirection.UpRight:
+                offsetY = range;
+                offsetX = range / 2;
+                if (range % 2 == 1 && posy % 2 == 1)
+                    offsetX++;
+                break;
+            case HexagonDirection.UpLeft:
+                offsetY = range;
+                offsetX = -range / 2;
+                if (range % 2 == 1 && posy % 2 == 0)
+                    offsetX--;
+                break;
+            case HexagonDirection.DownRight:
+                offsetY = -range;
+                offsetX = range / 2;
+                if (range % 2 == 1 && posy % 2 == 1)
+                    offsetX++;
+                break;
+            case HexagonDirection.DownLeft:
+                offsetY = -range;
+                offsetX = -range / 2;
+                if (range % 2 == 1 && posy % 2 == 0)
+                    offsetX--;
+                break;
+            case HexagonDirection.Right:
+                offsetX = range;
+                break;
+            case HexagonDirection.Left:
+                offsetX = -range;
+                break;
+        }
+
+        return Tuple.Create(posx + offsetX, posy + offsetY);
+    }
+
+    public void HighlightMoveOptions(int range, int tileX, int tileY)
+    {
+        var gameController = GameStateController.GetInstance();
+        var tiles = gameController.tiles;
+
+        //UpRight:
+        var tileIndex = GetTileIndex(tileX, tileY, HexagonDirection.UpRight, range);
+
+        if (HasEmptyTile(tileIndex.Item1, tileIndex.Item2))
+        {
+            var tile = tiles[tileIndex.Item1, tileIndex.Item2];
+            tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.UpRight, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
+            tile.Operation = CreateOperation(tileIndex.Item1, tileIndex.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
+        }
+
+
+        //UpLeft:
+        var tileIndex1 = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range);
+
+        if (HasEmptyTile(tileIndex1.Item1, tileIndex1.Item2))
+        {
+            var tile = tiles[tileIndex1.Item1, tileIndex1.Item2];
+            tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.UpLeft, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
+            tile.Operation = CreateOperation(tileIndex1.Item1, tileIndex1.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
+        }
+
+        //DownRight:
+        var tileIndex2 = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range);
+
+        if (HasEmptyTile(tileIndex2.Item1, tileIndex2.Item2))
+        {
+            var tile = tiles[tileIndex2.Item1, tileIndex2.Item2];
+            tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownRight, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
+            tile.Operation = CreateOperation(tileIndex2.Item1, tileIndex2.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
+        }
+
+        //DownLeft:
+        var tileIndex3 = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range);
+
+        if (HasEmptyTile(tileIndex3.Item1, tileIndex3.Item2))
+        {
+            var tile = tiles[tileIndex3.Item1, tileIndex3.Item2];
+            tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.DownLeft, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
+            tile.Operation = CreateOperation(tileIndex3.Item1, tileIndex3.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
+        }
+
+        //Right:
+        var tileIndex4 = GetTileIndex(tileX, tileY, HexagonDirection.Right, range);
+
+        if (HasEmptyTile(tileIndex4.Item1, tileIndex4.Item2))
+        {
+            var tile = tiles[tileIndex4.Item1, tileIndex4.Item2];
+            tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Right, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
+            tile.Operation = CreateOperation(tileIndex4.Item1, tileIndex4.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
+        }
+
+        //Left:
+        var tileIndex5 = GetTileIndex(tileX, tileY, HexagonDirection.Left, range);
+
+        if (HasEmptyTile(tileIndex5.Item1, tileIndex5.Item2))
+        {
+            var tile = tiles[tileIndex5.Item1, tileIndex5.Item2];
+            tile.SetHighlight(HighlightType.Move);
+
+            var tileIndexAtt = GetTileIndex(tileX, tileY, HexagonDirection.Left, range + 1);
+            if (HasEmptyTile(tileIndexAtt.Item1, tileIndexAtt.Item2))
+            {
+                var tileAtt = tiles[tileIndexAtt.Item1, tileIndexAtt.Item2];
+                tileAtt.SetHighlight(HighlightType.Attack);
+            }
+            tile.Operation = CreateOperation(tileIndex5.Item1, tileIndex5.Item2, tileIndexAtt.Item1, tileIndexAtt.Item2);
+        }
+    }
+}
